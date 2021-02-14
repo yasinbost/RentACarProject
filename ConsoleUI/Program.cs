@@ -18,7 +18,7 @@ namespace ConsoleUI
             //BrandName="Mazda"};
             //Brand brand2 = new Brand() { BrandName="aa"};
 
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine(car.Id +" " + car.CarName +" " + car.ColorName + " " + car.DailyPrice);
             }

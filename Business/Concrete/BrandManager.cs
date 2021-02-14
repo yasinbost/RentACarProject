@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAcces.Abstract;
 using Entities.Concrete;
 using System;
@@ -14,46 +16,51 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        public void Added(Brand brand)
+        public IResult Added(Brand brand)
         {
             if (brand.BrandName.Length > 2 )
             {
                 _brandDal.Add(brand);
-                Console.WriteLine("Marka Eklendi");
+                return new SuccessResult(Messages.BrandAdded);
             }
             else {
-                Console.WriteLine($"Lütfen marka adini 2 harften fazla giriniz.Girilen Marka adi : {brand.BrandName}");
+                return new ErrorResult(Messages.BrandNameInvalid);
             }
 
             
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            Console.WriteLine("Marka Silindi");
+            return new SuccessResult(Messages.BrandDeleted);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            if (DateTime.Now.Hour==22)
+            {
+                return new ErrorDataResult<List<Brand>>( Messages.MaintenanceTime);
+            }
+
+            return new SuccessDataResult<List<Brand>>( _brandDal.GetAll(),Messages.BrandListed);
         }
 
-        public Brand GetById(int id)
+        public IDataResult<Brand> GetById(int id)
         {
-            return _brandDal.Get(p => p.BrandId == id);
+            return new SuccessDataResult<Brand>(_brandDal.Get(p => p.BrandId == id));
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             if (brand.BrandName.Length > 2)
             {
                 _brandDal.Update(brand);
-                Console.WriteLine("Marka Güncellendi");
+                return new SuccessResult( Messages.BrandUpdated);
             }
             else
             {
-                Console.WriteLine($"Lütfen marka adini 2 harften fazla giriniz.Girilen Marka adi : {brand.BrandId}");
+                return new ErrorResult(Messages.BrandNameInvalid);
             }
         }
     }
