@@ -12,22 +12,39 @@ namespace ConsoleUI
         {
             CarManager carManager = new CarManager(new EfCarDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            UserManager userManager = new UserManager(new EfUserDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-            //Car car1 = new Car() { BrandId=1, ColorId=3, DailyPrice= 450, Descriptions=" Dizel Otomatik", ModelYear= "2019"};
-            //Brand brand1 = new Brand() { 
-            //BrandName="Mazda"};
-            //Brand brand2 = new Brand() { BrandName="aa"};
 
-            foreach (var car in carManager.GetCarDetails().Data)
+            RentalAdd(rentalManager);
+            var result = brandManager.GetAll();
+            if (result.Success)
             {
-                Console.WriteLine(car.Id +" " + car.CarName +" " + car.ColorName + " " + car.DailyPrice);
+                foreach (var brand in result.Data)
+                {
+                    Console.WriteLine(brand.BrandName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
 
-            
-
-          
 
 
+        }
+        private static void RentalAdd(RentalManager rentalManager)
+        {
+
+            rentalManager.Add(new Rental
+            {
+                CarId=5, CustomerId=2,
+
+                RentDate = new DateTime(2021, 02, 13),
+                ReturnDate = new DateTime(2021, 02, 15)
+            });
         }
     }
 }

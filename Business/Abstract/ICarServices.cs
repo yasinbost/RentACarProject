@@ -15,6 +15,7 @@ namespace Business.Abstract
         IDataResult<List<Car>> GetAll();  // tüm listeyi verir.
         IDataResult<List<Car>> GetCarsBrandId(int id);  // ıd ye göre getirir.
         IDataResult<List<Car>> GetCarsColorId(int id);
+        IDataResult<List<Car>> GetCarsById(int id);
         IDataResult<List<CarDetailsDto>> GetCarDetails();
 
 
