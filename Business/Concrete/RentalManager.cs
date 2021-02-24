@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAcces.Abstract;
 using Entities.Concrete;
@@ -17,21 +19,15 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (rental.RentDate != null && rental.ReturnDate != null)
-            {
+           
 
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.RentalAdded);
 
-
-            }
-            else
-            {
-                return new SuccessResult(Messages.RentalNotAdded);
-            }
+          
         }
 
         public IResult Delete(Rental rental)
@@ -58,19 +54,22 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<RentalDetailsDto>>(_rentalDal.GetRentalDetails());
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
         }
+
+
+        [ValidationAspect(typeof(RentalValidator))]
         public IDataResult<Rental> CheckCarAvailable(int id)
         {
-            var carInfo = _rentalDal.Get(c => c.CarId == id);
-            if (carInfo != null && carInfo.ReturnDate == null)
-            {
-                return new ErrorDataResult<Rental>(carInfo, Messages.RentalError);
-            }
+            //var carInfo = _rentalDal.Get(c => c.CarId == id);
+            //if (carInfo != null && carInfo.ReturnDate == null)
+            //{
+            //    return new ErrorDataResult<Rental>(carInfo, Messages.RentalError);
+            //}
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CarId == id));
         }
     }
