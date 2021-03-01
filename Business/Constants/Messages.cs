@@ -49,6 +49,9 @@ namespace Business.Constants
         // Other
         public static string MaintenanceTime = "Maintenance";
         public static string CarsListed = "Arabalar listelendi";
-
+        public static string CarImageUpdated = "CarImageUpdated";
+        public static string CarImageLimitExceded =" CarImageLimitExceded";
+        public static string CarImageDeleted= "CarImageDeleted";
+        public static string CarImageAdded= "CarImageAdded";
     }
 }

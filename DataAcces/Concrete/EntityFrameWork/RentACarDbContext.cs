@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAcces.Concrete.EntityFrameWork
 {
-    public class RentACarDbContext :DbContext
+    public class RentACarDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,5 +19,6 @@ namespace DataAcces.Concrete.EntityFrameWork
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
     }
 }
